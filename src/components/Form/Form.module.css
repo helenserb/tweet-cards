@@ -1,0 +1,28 @@
+form{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.formLabel{
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.formInput{
+    padding: 10px;
+    font-size: 18px;
+}
+
+.submitBtn{
+    margin: auto;
+    margin-top: 10px;
+    padding: 5px;
+    max-width: 200px;
+    cursor: pointer;
+    border: 3px solid navy;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
