@@ -16,33 +16,36 @@ class App extends Component {
     filter: '',
   };
 
-
   addContact = data => {
     this.setState(() => {
-        if (
-          this.state.contacts.find(
-            contact => contact.name.toLowerCase() === data.name.toLowerCase()
-          )
-        ) {
-          alert(`${data.name} is alredy in contacts`);
+      if (
+        this.state.contacts.find(
+          contact => contact.name.toLowerCase() === data.name.toLowerCase()
+        )
+      ) {
+        alert(`${data.name} is alredy in contacts`);
       } else {
         return {
-        contacts: [
-          ...this.state.contacts,
-          { id: nanoid(), name: data.name, number: data.number },
-        ],
-      };
+          contacts: [
+            ...this.state.contacts,
+            { id: nanoid(), name: data.name, number: data.number },
+          ],
+        };
       }
-      
     });
   };
 
-  changeFilter = (e) => {
-    this.setState({filter: e.currentTarget.value})
-  }
+  changeFilter = e => {
+    this.setState({ filter: e.currentTarget.value });
+  };
+
+  deleteContact = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contacts => contacts.id !== id),
+    }));
+  };
 
   render = () => {
-
     const normaizdeFilter = this.state.filter.toLowerCase();
     const visilbleContacts = this.state.contacts.filter(contact =>
       contact.name.toLowerCase().includes(normaizdeFilter)
@@ -53,7 +56,7 @@ class App extends Component {
         <Form onSubmit={this.addContact} />
         <h2>Contacts</h2>
         <Filter onChange={this.changeFilter} />
-        <ContactList contacts={visilbleContacts} />
+        <ContactList contacts={visilbleContacts} onDelete={this.deleteContact} />
       </>
     );
   };
