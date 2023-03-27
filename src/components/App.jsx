@@ -55,7 +55,7 @@ class App extends Component {
         <h1>Phonebook</h1>
         <Form onSubmit={this.addContact} />
         <h2>Contacts</h2>
-        <Filter onChange={this.changeFilter} />
+        <Filter onChange={this.changeFilter} value={this.state.filter} />
         <ContactList contacts={visilbleContacts} onDelete={this.deleteContact} />
       </>
     );
