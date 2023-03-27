@@ -16,33 +16,24 @@ class App extends Component {
     filter: '',
   };
 
-  // createContact = data => {
-  //     this.setState(() => {
-  //       if (
-  //         this.state.contacts.find(
-  //           contact => contact.name.toLowerCase() === data.name.toLowerCase()
-  //         )
-  //       ) {
-  //         alert(`${data.name} is alredy in contacts`);
-  //       } else {
-  //         return {
-  //           contacts: [
-  //             { id: nanoid(), name: data.name, number: data.number },
-  //             ...this.state.contacts,
-  //           ],
-  //         };
-  //       }
-  //     });
-  //   };
 
   addContact = data => {
     this.setState(() => {
-      return {
+        if (
+          this.state.contacts.find(
+            contact => contact.name.toLowerCase() === data.name.toLowerCase()
+          )
+        ) {
+          alert(`${data.name} is alredy in contacts`);
+      } else {
+        return {
         contacts: [
           ...this.state.contacts,
           { id: nanoid(), name: data.name, number: data.number },
         ],
       };
+      }
+      
     });
   };
 
