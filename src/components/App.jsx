@@ -17,22 +17,21 @@ class App extends Component {
   };
 
   addContact = data => {
-    this.setState(() => {
-      if (
-        this.state.contacts.find(
-          contact => contact.name.toLowerCase() === data.name.toLowerCase()
-        )
-      ) {
-        alert(`${data.name} is alredy in contacts`);
-      } else {
-        return {
+    const isExist = this.state.contacts.find(
+      contact => contact.name.toLowerCase() === data.name.toLowerCase()
+    );
+
+    if (isExist) {
+      alert(`${data.name} is alredy in contacts`);
+      return;
+    } else {
+      return this.setState(prevState => ({
           contacts: [
-            ...this.state.contacts,
+            ...prevState.contacts,
             { id: nanoid(), name: data.name, number: data.number },
           ],
-        };
-      }
-    });
+        })
+      )};
   };
 
   changeFilter = e => {
