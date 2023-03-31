@@ -67,10 +67,10 @@ class App extends Component {
         <Form onSubmit={this.addContact} />
         <h2>Contacts</h2>
         <Filter onChange={this.changeFilter} value={this.state.filter} />
-        <ContactList
+        {this.state.contacts && <ContactList
           contacts={visilbleContacts}
           onDelete={this.deleteContact}
-        />
+        />}
       </>
     );
   };
