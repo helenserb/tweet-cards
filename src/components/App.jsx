@@ -27,7 +27,7 @@ class App extends Component {
       localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
     }
   }
-
+  
   addContact = data => {
     const isExist = this.state.contacts.find(
       contact => contact.name.toLowerCase() === data.name.toLowerCase()
