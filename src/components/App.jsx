@@ -34,7 +34,7 @@ useEffect(() => {
   };
 
   const changeFilter = e => {
-    setFilter(e.e.currentTarget.value);
+    setFilter(e.currentTarget.value);
   };
 
   const deleteContact = id => {

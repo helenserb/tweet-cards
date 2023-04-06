@@ -35,8 +35,8 @@ const reset = () => {
 const handleSubmit = e => {
     e.preventDefault();
 
-    const newContact = addContact({ name, number });
-    newContact && reset();
+    addContact({ name, number });
+    reset();
   };
 
     return (
