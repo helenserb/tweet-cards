@@ -5,7 +5,6 @@ import css from './Form.module.css'
 
 
 export const Form = ({ addContact }) => {
-  console.log(addContact)
   const [name, setName] = useState('')
   const [number, setNumber] = useState('');
 
@@ -29,8 +28,8 @@ const handleChange = ({target: {name, value}}) => {
   };
 
 const reset = () => {
-    setNumber('');
-    setName('');
+  setName('');
+  setNumber('');
   };
 
 const handleSubmit = e => {
@@ -79,5 +78,5 @@ const handleSubmit = e => {
 
 
 Form.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  addContact: PropTypes.func.isRequired,
 };
