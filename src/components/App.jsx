@@ -3,6 +3,8 @@ import { nanoid } from 'nanoid';
 import { Form } from "./Form/Form";
 import { Filter } from "./Filter/Filter";
 import { ContactList } from "./ContactList/ContactList";
+import { useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/contactsSlice';
 
 
 export default function App () {
@@ -13,9 +15,8 @@ export default function App () {
   });
   const [filter, setFilter] = useState('');
   
-useEffect(() => {
-  localStorage.setItem('contacts', JSON.stringify(contacts));
-}, [contacts]);
+  useEffect(() => {
+  const distpach = useDispatch();
 
   const addContact = ({ name, number }) => {
 
