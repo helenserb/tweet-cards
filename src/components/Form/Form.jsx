@@ -38,6 +38,12 @@ const reset = () => {
 
 const handleSubmit = e => {
   e.preventDefault();
+  
+  const newContact = {
+    id: nanoid(),
+    name,
+    number,
+  };
   const isExist = contacts.find(
         contact => contact.name.toLowerCase() === name.toLowerCase()
       );
@@ -46,7 +52,7 @@ const handleSubmit = e => {
         alert(`${name} is alredy in contacts`);
         return;
       } 
-    dispatch(addContact({ name, number }));
+    dispatch(addContact(newContact));
     reset();
   };
 
