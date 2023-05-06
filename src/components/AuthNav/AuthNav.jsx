@@ -1,5 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { selectIsLoggedIn } from 'redux/auth/selectors';
 
 
 export const AuthNav = () => {
@@ -15,12 +16,12 @@ export const AuthNav = () => {
         </div>
       ) : (
         <div>
-          <NavLink className={css.link} to="/register">
-            <div className={css.items}>Register</div>
+          <NavLink to="/register">
+            <div >Register</div>
           </NavLink>
 
-          <NavLink className={css.link} to="/login">
-            <div className={css.items}>Log In</div>
+          <NavLink  to="/login">
+            <div >Log In</div>
           </NavLink>
         </div>
       )}

@@ -1,38 +1,64 @@
 import { Route, Routes } from "react-router-dom";
-import { lazy } from 'react';
-// import { useDispatch } from 'react-redux';
+import { lazy, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Layout } from "./Layout/Layout";
+import { fetchCurrentUser } from 'redux/auth/auth-operations';
+import { useSelector } from 'react-redux';
+import { selectIsFetchingCurrentUser } from 'redux/selectors';
+import PrivateRoute from './PrivateRoute/PrivateRoute';
+import RestrictedRoute from './RestrictedRoute/RestrictedRoute';
 
 const HomeView = lazy(() => import('../pages/HomeView'));
 const RegisterView = lazy(() => import('../pages/RegisterView'));
 const LoginView = lazy(() => import('../pages/LoginView'));
-const ContactsView = lazy(() => import('../pages/ContactsView'));
+const ContacstView = lazy(() => import('../pages/ContactsView'));
 
-export default function App() {
-  // const contacts = useSelector(contactsSelector);
-  // const dispatch = useDispatch();
-  // const isLoading = useSelector(isLoadingSelector);
-  // const dispatch = useDispatch();
-  // useEffect(()=> {
-  //   dispatch(fetchContacts());
-  // }, [dispatch]);
+export const App = () => {
+  const getIsFetchingCurrentUser = useSelector(selectIsFetchingCurrentUser);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchCurrentUser());
+  }, [dispatch]);
 
   return (
-    <>
-      <Routes>
-        <Route path="/" element={<Layout />}/>
-        <Route exact path="/" component={HomeView}></Route>
-        <Route path="/register" component={RegisterView}></Route>
-        <Route path="/login" component={LoginView}></Route>
-        <Route path="/contacts" component={ContactsView}></Route>
-      </Routes>
-
-      {/* <h1>Phonebook</h1>
-      <Form />
-      <h2>Contacts</h2>
-      <Filter />
-      {contacts && <ContactList />}
-      {isLoading && <Loader />} */}
-    </>
+    !getIsFetchingCurrentUser && (
+      <section>
+        <div>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<HomeView />} />
+              <Route
+                path="register"
+                element={
+                  <RestrictedRoute
+                    component={<RegisterView />}
+                    redirectTo="/contacts"
+                  ></RestrictedRoute>
+                }
+              />
+              <Route
+                path="login"
+                element={
+                  <RestrictedRoute
+                    component={<LoginView />}
+                    redirectTo="/contacts"
+                  ></RestrictedRoute>
+                }
+              />
+              <Route
+                path="contacts"
+                element={
+                  <PrivateRoute
+                    component={<ContacstView />}
+                    redirectTo="/login"
+                  ></PrivateRoute>
+                }
+              />
+            </Route>
+          </Routes>
+        </div>
+      </section>
+    )
   );
-  }
+};
