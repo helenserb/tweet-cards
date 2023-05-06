@@ -1,7 +1,7 @@
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { lazy } from 'react';
 // import { useDispatch } from 'react-redux';
-
+import { Layout } from "./Layout/Layout";
 
 const HomeView = lazy(() => import('../pages/HomeView'));
 const RegisterView = lazy(() => import('../pages/RegisterView'));
@@ -19,10 +19,13 @@ export default function App() {
 
   return (
     <>
-      <Route exact path="/" component={HomeView}></Route>
-      <Route path="/register" component={RegisterView}></Route>
-      <Route path="/login" component={LoginView}></Route>
-      <Route path="/contacts" component={ContactsView}></Route>
+      <Routes>
+        <Route path="/" element={<Layout />}/>
+        <Route exact path="/" component={HomeView}></Route>
+        <Route path="/register" component={RegisterView}></Route>
+        <Route path="/login" component={LoginView}></Route>
+        <Route path="/contacts" component={ContactsView}></Route>
+      </Routes>
 
       {/* <h1>Phonebook</h1>
       <Form />
