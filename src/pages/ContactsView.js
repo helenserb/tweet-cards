@@ -3,10 +3,13 @@ import { Filter } from '../components/Filter/Filter';
 import { ContactList } from '../components/ContactList/ContactList'
 import { useSelector } from 'react-redux';
 import Loader from '../components/Loader/Loader';
+import { selectIsLoggedIn } from 'redux/auth/selectors';
+import { getIsLoading } from 'redux/selectors';
 
 
 export default function ContactsView() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
+  const isLoading = useSelector(getIsLoading);
 
   return (
     <>
@@ -16,7 +19,7 @@ export default function ContactsView() {
           <Form />
           <h2>Contacts</h2>
           <Filter />
-          {contacts && <ContactList />}
+          <ContactList />
           {isLoading && <Loader />}
         </div>
       ) : (
