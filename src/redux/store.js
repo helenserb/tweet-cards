@@ -10,14 +10,13 @@ import {
 } from 'redux-persist';
 import { authPersistedReducer } from './auth/slice';
 import { filter } from './filterSlice';
-import { contacts } from './contactsSlice';
 import { contactsApi } from 'service/contactsAPI';
 
 
 export const store = configureStore({
   reducer: {
     auth: authPersistedReducer,
-    contacts: contacts.reducer,
+    contacts: contactsApi.reducer,
     filter: filter.reducer,
   },
 
@@ -26,8 +25,7 @@ export const store = configureStore({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
-    })
-  .concat(contactsApi.middleware),
+    }).concat(contactsApi.middleware),
 });
 
 export const persistor = persistStore(store);

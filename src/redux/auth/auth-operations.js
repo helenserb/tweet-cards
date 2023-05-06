@@ -15,16 +15,40 @@ const token = {
 export const register = createAsyncThunk(
   'auth/register',
   async (credentials, thunkAPI) => {
+
     try {
       const { data } = await axios.post('/users/signup', credentials);
       token.set(data.token);
       return data;
     } catch (error){
-    
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
+
+export const logIn = createAsyncThunk(
+  'auth/logIn',
+  async (credentials, thunkAPI) => {
+    try {
+      const { data } = await axios.post('/users/login', credentials);
+      token.set(data.token);
+      return data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const logOut = createAsyncThunk('auth/logOut', async (_, thunkAPI) => {
+
+  try {
+    const { data } = await axios.post('/users/logout');
+    token.clear();
+    return data;
+  } catch (error){
+      return thunkAPI.rejectWithValue(error.message);
+    }
+});
 
 export const fetchCurrentUser = createAsyncThunk(
   'auth/refresh',
@@ -35,12 +59,13 @@ export const fetchCurrentUser = createAsyncThunk(
     if (!persistedToken) {
       return thunkAPI.rejectWithValue();
     }
+
     token.set(persistedToken);
     try {
       const { data } = await axios.get('/users/current');
       return data;
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err.message);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

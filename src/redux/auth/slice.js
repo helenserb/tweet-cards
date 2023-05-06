@@ -1,28 +1,68 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { register } from "./auth-operations";
+import { createSlice } from '@reduxjs/toolkit';
 import { persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+
+import { register, logIn, logOut, fetchCurrentUser } from './auth-operations';
+
+const authInitialState = {
+  user: {
+    name: null,
+    email: null,
+  },
+  token: null,
+  isLoggedIn: false,
+  isFetchingCurrentUser: false,
+};
 
 const persistConfig = {
   key: 'token',
   storage,
   whitelist: ['token'],
 };
+
 const authSlice = createSlice({
-    name: 'auth',
-    initialState: {
-        user: { name: null, number: null },
-        token: null,
-        isLoggedIn: false,
-        isRefreshing: false,
+  name: 'auth',
+  initialState: authInitialState,
+  extraReducers: {
+    [register.pending]() {},
+    [register.fulfilled](state, { payload }) {
+      state.user.name = payload.user.name;
+      state.user.email = payload.user.email;
+      state.token = payload.token;
+      state.isLoggedIn = true;
     },
-    extraReducers: builder => builder
-        .addCase(register.pending, (state, action) => state)
-        .addCase(register.fulfilled, (state, action) => state)
-        .addCase(register.rejected, (state, action) => state)
+    [register.rejected]() {},
+
+    [logIn.pending]() {},
+    [logIn.fulfilled](state, { payload }) {
+      state.user.name = payload.user.name;
+      state.user.email = payload.user.email;
+      state.token = payload.token;
+      state.isLoggedIn = true;
+    },
+    [logIn.rejected]() {},
+
+    [logOut.pending]() {},
+    [logOut.fulfilled]() {
+      return authInitialState;
+    },
+    [logOut.rejected]() {},
+
+    [fetchCurrentUser.pending](state) {
+      state.isFetchingCurrentUser = true;
+    },
+    [fetchCurrentUser.fulfilled](state, { payload }) {
+      state.user.name = payload.name;
+      state.user.email = payload.email;
+      state.isLoggedIn = true;
+      state.isFetchingCurrentUser = false;
+    },
+    [fetchCurrentUser.rejected](state) {
+      state.isFetchingCurrentUser = false;
+    },
+  },
 });
 
-export const authReducer = authSlice.reducer;
 export const authPersistedReducer = persistReducer(
   persistConfig,
   authSlice.reducer

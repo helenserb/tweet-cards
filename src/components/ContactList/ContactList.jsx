@@ -1,15 +1,27 @@
 import css from './ContactList.module.css'
-import { deleteContact } from 'redux/operations';
-import { visilbleContacts} from 'redux/selectors';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  useDeleteContactMutation,
+  useFetchContactsQuery,
+} from 'service/contactsAPI';
+// import { visilbleContacts} from 'redux/selectors';
+import { useSelector } from 'react-redux';
+import { selectFilter, getIsLoading } from 'redux/selectors';
+import Loader from 'components/Loader/Loader';
 
 export const ContactList = () => {
-  const distpach = useDispatch();
-  const contacts = useSelector(visilbleContacts);
-
+  const [deleteContact] = useDeleteContactMutation();
+    const isLoading = useSelector(getIsLoading);
+  const filter = useSelector(selectFilter);
+  
+  const { data = [] } = useFetchContactsQuery();
+    const formattedFilter = filter.toLowerCase();
+    const filteredContacts = data.filter(contact =>
+      contact.name.toLowerCase().includes(formattedFilter)
+    );
+  
     return (
       <ul className={css.contactList}>
-        {contacts.map(({ id, name, number }) => (
+        {filteredContacts.map(({ id, name, number }) => (
           <li className={css.contactItem} key={id}>
             <p>
               {name}: {number}
@@ -17,13 +29,14 @@ export const ContactList = () => {
             <button
               type="button"
               onClick={() => {
-                distpach(deleteContact(id));
+                deleteContact({ id });
               }}
             >
               Delete
             </button>
           </li>
         ))}
+        {isLoading && <Loader />}
       </ul>
     );
 }

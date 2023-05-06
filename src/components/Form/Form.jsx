@@ -1,20 +1,19 @@
 import { useState } from "react";
-import { nanoid } from 'nanoid'
 import css from './Form.module.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'redux/operations';
-import { contactsSelector } from 'redux/selectors';
+
+import {
+  useFetchContactsQuery,
+  useAddContactMutation,
+} from 'service/contactsAPI';
 
 
 export const Form = () => {
   const [name, setName] = useState('')
   const [number, setNumber] = useState('');
 
-  const contacts = useSelector(contactsSelector);
-  const dispatch = useDispatch();
+ const [addContact] = useAddContactMutation();
 
-  const nameInputId = nanoid();
-  const  numberInputId = nanoid();
+ const { data = [] } = useFetchContactsQuery();
 
 const handleChange = ({target: {name, value}}) => {
     switch (name) {
@@ -36,34 +35,31 @@ const reset = () => {
   setNumber('');
   };
 
-const handleSubmit = e => {
-  e.preventDefault();
-  
-  const newContact = {
-    id: nanoid(),
-    name,
-    number,
-  };
-  const isExist = contacts.find(
-        contact => contact.name.toLowerCase() === name.toLowerCase()
+    const handleSubmit = e => {
+      e.preventDefault();
+      const formattedName = name.toLowerCase();
+      const isNewContact = data.every(
+        contact => contact.name.toLowerCase() !== formattedName
       );
 
-      if (isExist) {
-        alert(`${name} is alredy in contacts`);
+      if (!isNewContact) {
+        alert(`${name} is already in contacts.`);
         return;
-      } 
-    dispatch(addContact(newContact));
-    reset();
-  };
+      }
+      addContact({ name, number });
 
+      reset();
+    };
+
+
+  
     return (
       <form onSubmit={handleSubmit}>
-        <label htmlFor={nameInputId} className={css.formLabel}>
+        <label htmlFor={name} className={css.formLabel}>
           Name:
         </label>
         <input
           className={css.formInput}
-          id={nameInputId}
           type="text"
           name="name"
           value={name}
@@ -73,12 +69,11 @@ const handleSubmit = e => {
           onChange={handleChange}
         />
 
-        <label htmlFor={numberInputId} className={css.formLabel}>
+        <label htmlFor={number} className={css.formLabel}>
           Number:
         </label>
         <input
           className={css.formInput}
-          id={numberInputId}
           type="tel"
           name="number"
           value={number}

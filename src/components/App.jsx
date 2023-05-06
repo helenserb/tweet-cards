@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { Layout } from "./Layout/Layout";
 import { fetchCurrentUser } from 'redux/auth/auth-operations';
 import { useSelector } from 'react-redux';
-import { selectIsFetchingCurrentUser } from 'redux/selectors';
+import { selectIsFetchingCurrentUser } from 'redux/auth/selectors';
 import PrivateRoute from './PrivateRoute/PrivateRoute';
 import RestrictedRoute from './RestrictedRoute/RestrictedRoute';
 
