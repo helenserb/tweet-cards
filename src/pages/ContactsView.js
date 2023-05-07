@@ -8,9 +8,13 @@ import { selectIsLoggedIn } from 'redux/auth/selectors';
 
 export default function ContactsView() {
   const isLoggedIn = useSelector(selectIsLoggedIn);
-
+  const styles = {
+    conteiner: {
+      marginLeft: 20,
+    },
+  };
 return (
-    <div>
+    <div style = {styles.conteiner}>
       {isLoggedIn ? (
         <div>
           <h1>Phonebook</h1>

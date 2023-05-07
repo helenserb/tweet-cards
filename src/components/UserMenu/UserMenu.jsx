@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUser, selectIsLoggedIn } from 'redux/auth/selectors';
 import { logOut } from 'redux/auth/auth-operations';
+import css from './UserMenu.module.css'
 
 export const UserMenu = () => {
   const dispatch = useDispatch();
@@ -10,9 +11,10 @@ export const UserMenu = () => {
   return (
     <>
       {isLoggedIn ? (
-        <div>
-          <p>Welcome, {user.name}</p>
+        <div className={css.wrapp}>
+          <p className={css.user}>Welcome, {user.name}!</p>
           <button
+            className={css.logOutBtn}
             type="button"
             onClick={() => dispatch(logOut())}
           >

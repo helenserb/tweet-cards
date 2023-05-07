@@ -27,6 +27,7 @@ export const ContactList = () => {
               {name}: {number}
             </p>
             <button
+              className={css.deleteBtn}
               type="button"
               onClick={() => {
                 deleteContact({ id });
