@@ -20,48 +20,88 @@ const persistConfig = {
   whitelist: ['token'],
 };
 
+
+
 const authSlice = createSlice({
   name: 'auth',
   initialState: authInitialState,
-  extraReducers: {
-    [register.pending]() {},
-    [register.fulfilled](state, { payload }) {
-      state.user.name = payload.user.name;
-      state.user.email = payload.user.email;
-      state.token = payload.token;
-      state.isLoggedIn = true;
-    },
-    [register.rejected]() {},
+  extraReducers: builder =>
+    builder
+      .addCase(register.pending, () => {})
+      .addCase(register.rejected, () => {})
+      .addCase(register.fulfilled, (state, { payload }) => {
+        state.user.name = payload.user.name;
+        state.user.email = payload.user.email;
+        state.token = payload.token;
+        state.isLoggedIn = true;
+      })
+      .addCase(logIn.pending, (state, action) => state)
+      .addCase(logIn.rejected, (state, action) => state)
+      .addCase(logIn.fulfilled, (state, { payload }) => {
+        state.user.name = payload.user.name;
+        state.user.email = payload.user.email;
+        state.token = payload.token;
+        state.isLoggedIn = true;
+      })
+      .addCase(logOut.pending, (state, action) => state)
+      .addCase(logOut.rejected, (state, action) => state)
+      .addCase(logOut.fulfilled, () => authInitialState)
 
-    [logIn.pending]() {},
-    [logIn.fulfilled](state, { payload }) {
-      state.user.name = payload.user.name;
-      state.user.email = payload.user.email;
-      state.token = payload.token;
-      state.isLoggedIn = true;
-    },
-    [logIn.rejected]() {},
-
-    [logOut.pending]() {},
-    [logOut.fulfilled]() {
-      return authInitialState;
-    },
-    [logOut.rejected]() {},
-
-    [fetchCurrentUser.pending](state) {
-      state.isFetchingCurrentUser = true;
-    },
-    [fetchCurrentUser.fulfilled](state, { payload }) {
-      state.user.name = payload.name;
-      state.user.email = payload.email;
-      state.isLoggedIn = true;
-      state.isFetchingCurrentUser = false;
-    },
-    [fetchCurrentUser.rejected](state) {
-      state.isFetchingCurrentUser = false;
-    },
-  },
+      .addCase(
+        fetchCurrentUser.pending,
+        (state, action) => (state.isFetchingCurrentUser = true)
+      )
+      .addCase(
+        fetchCurrentUser.rejected,
+        (state, action) => (state.isFetchingCurrentUser = false)
+      )
+      .addCase(fetchCurrentUser.fulfilled, (state, { payload }) => {
+        state.user.name = payload.name;
+        state.user.email = payload.email;
+        state.isLoggedIn = true;
+        state.isFetchingCurrentUser = false;
+      }),
 });
+
+
+    // [register.pending]() {},
+    // [register.fulfilled](state, { payload }) {
+    //   state.user.name = payload.user.name;
+    //   state.user.email = payload.user.email;
+    //   state.token = payload.token;
+    //   state.isLoggedIn = true;
+    // },
+    // [register.rejected]() {},
+
+    // [logIn.pending]() {},
+    // [logIn.fulfilled](state, { payload }) {
+    //   state.user.name = payload.user.name;
+    //   state.user.email = payload.user.email;
+    //   state.token = payload.token;
+    //   state.isLoggedIn = true;
+    // },
+    // [logIn.rejected]() {},
+
+    // [logOut.pending]() {},
+    // [logOut.fulfilled]() {
+    //   return authInitialState;
+    // },
+    // [logOut.rejected]() {},
+
+//     [fetchCurrentUser.pending](state) {
+//       state.isFetchingCurrentUser = true;
+//     },
+//     [fetchCurrentUser.fulfilled](state, { payload }) {
+//       state.user.name = payload.name;
+//       state.user.email = payload.email;
+//       state.isLoggedIn = true;
+//       state.isFetchingCurrentUser = false;
+//     },
+//     [fetchCurrentUser.rejected](state) {
+//       state.isFetchingCurrentUser = false;
+//     },
+//   },
+// });
 
 export const authPersistedReducer = persistReducer(
   persistConfig,
