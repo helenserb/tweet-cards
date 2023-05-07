@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Notiflix from "notiflix";
 import css from './Form.module.css'
 
 import {
@@ -43,10 +44,11 @@ const reset = () => {
       );
 
       if (!isNewContact) {
-        alert(`${name} is already in contacts.`);
+        Notiflix.Notify.failure(`${name} is already in contacts.`);;
         return;
       }
       addContact({ name, number });
+      Notiflix.Notify.success(`${name} added to your contacts`);
 
       reset();
     };

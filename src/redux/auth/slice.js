@@ -38,8 +38,6 @@ const authSlice = createSlice({
       .addCase(logIn.pending, (state, action) => state)
       .addCase(logIn.rejected, (state, action) => state)
       .addCase(logIn.fulfilled, (state, { payload }) => {
-        console.log(state.user.name);
-        console.log(payload.user);
         state.user.name = payload.user.name;
         state.user.email = payload.user.email;
         state.token = payload.token;
