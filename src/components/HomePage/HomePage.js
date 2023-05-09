@@ -5,7 +5,7 @@ export const HomePage = ({ location }) => {
   return (
     <>
       <Title>Welcome to Tweets!</Title>
-      <StartLink to={location.state?.from ?? "/tweets"}>Let's start!</StartLink>
+      <StartLink to={location.state?.from ?? "/tweets"}>LET'S GO!!</StartLink>
     </>
   );
 };
