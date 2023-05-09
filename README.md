@@ -1,6 +1,6 @@
 Layout:  https://www.figma.com/file/zun1oP6NmS2Lmgbcj6e1IG/Test?node-id=0%3A1&t=VoiYTfiXggVItgVd-1.
 The app with tweet cards and buttons of interactivity(follow/unfollow) + filter.
-(./assets/readmeImg.jpg)
+![Layout of app](./assets/readmeImg.jpg)
 
 This project was created with React homework template by Aleksand Repeta based on
 [Create React App](https://github.com/facebook/create-react-app).
