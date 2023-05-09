@@ -6,8 +6,8 @@ This project was created with React homework template by Aleksand Repeta based o
 [Create React App](https://github.com/facebook/create-react-app).
 
 About: 
-1. According to the layout, a user card is created.
-2. A user was created in Mockapi with the following fields: id, user, tweets, followers, avatar (see screenshot below). Avatar images are registered with separate urls in the “avatar” property. 
+1. According to the layout, a user card was created.
+2. A user was created in Mockapi with the following fields: id, user, tweets, followers, avatar. Avatar images are registered with separate urls in the “avatar” property. 
 3. One pagination page displays 3 tweets, the rest are loaded when you click button Load More.
 4. Created routing using React Router.
 5. Added dropdown filtering (all/follow/following).
